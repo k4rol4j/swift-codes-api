@@ -11,8 +11,10 @@ Git
 
 # Setting up the Project
 1. Clone the repository
-  git clone https://github.com/k4rol4j/swift-codes-api
-  cd =swift-codes-api
+
+git clone https://github.com/k4rol4j/swift-codes-api
+
+cd =swift-codes-api
 # Run the app
 npm start
 
