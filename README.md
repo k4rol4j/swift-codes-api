@@ -1,99 +1,139 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# SWIFT Codes API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+REST API for managing and retrieving SWIFT/BIC bank codes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The application was developed using **NestJS**, **TypeScript**, **MongoDB** and **Mongoose**. It provides endpoints for retrieving SWIFT codes by code or country, adding new records, and deleting existing records.
 
-## Description
+## Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- TypeScript
+- NestJS
+- Node.js
+- MongoDB
+- Mongoose
+- Jest
+- Supertest
 
-## Project setup
+## Features
 
-```bash
-$ npm install
-```
+- Retrieve details of a SWIFT/BIC code
+- Retrieve all SWIFT codes for a specific country
+- Add a new SWIFT code
+- Delete an existing SWIFT code
+- Import SWIFT code data from an Excel file
+- Unit and end-to-end tests
 
-## Compile and run the project
+## API Endpoints
 
-```bash
-# development
-$ npm run start
+Base path:
 
-# watch mode
-$ npm run start:dev
+    /v1/swift-codes
 
-# production mode
-$ npm run start:prod
-```
+### Get SWIFT code details
 
-## Run tests
+    GET /v1/swift-codes/:swiftCode
 
-```bash
-# unit tests
-$ npm run test
+Returns information about a specific SWIFT code.
 
-# e2e tests
-$ npm run test:e2e
+### Get SWIFT codes by country
 
-# test coverage
-$ npm run test:cov
-```
+    GET /v1/swift-codes/country/:countryISO2code
 
-## Deployment
+Returns all SWIFT codes associated with a given country.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Example:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+    GET /v1/swift-codes/country/PL
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+### Add a SWIFT code
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+    POST /v1/swift-codes
 
-## Resources
+Adds a new SWIFT code to the database.
 
-Check out a few resources that may come in handy when working with NestJS:
+### Delete a SWIFT code
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+    DELETE /v1/swift-codes/:swiftCode
 
-## Support
+Deletes a SWIFT code from the database.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+If the requested SWIFT code does not exist, the API returns a `404 Not Found` response.
 
-## Stay in touch
+## Project Structure
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    swift-codes-api/
+    ├── src/
+    │   ├── modules/
+    │   │   └── swift-codes/
+    │   │       ├── dto/
+    │   │       ├── schemas/
+    │   │       ├── swift-codes.controller.ts
+    │   │       ├── swift-codes.service.ts
+    │   │       └── swift-codes.module.ts
+    │   ├── import-swift-codes.ts
+    │   ├── app.module.ts
+    │   └── main.ts
+    ├── test/
+    ├── Interns_2025_SWIFT_CODES.xlsx
+    ├── package.json
+    └── README.md
 
-## License
+## Getting Started
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Prerequisites
+
+- Node.js
+- npm
+- MongoDB
+
+### Installation
+
+Clone the repository:
+
+    git clone https://github.com/k4rol4j/swift-codes-api.git
+    cd swift-codes-api
+
+Install dependencies:
+
+    npm install
+
+### Running the application
+
+Development mode:
+
+    npm run start:dev
+
+Production mode:
+
+    npm run build
+    npm run start:prod
+
+## Testing
+
+Run unit tests:
+
+    npm test
+
+Run tests in watch mode:
+
+    npm run test:watch
+
+Run end-to-end tests:
+
+    npm run test:e2e
+
+Generate test coverage:
+
+    npm run test:cov
+
+## Data
+
+The repository contains an Excel file with SWIFT code data:
+
+    Interns_2025_SWIFT_CODES.xlsx
+
+The project also includes a dedicated script for importing SWIFT code data into MongoDB.
+
+## Author
+
+**Karolina Jędryczka**
