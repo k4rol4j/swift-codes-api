@@ -1,8 +1,8 @@
 {
-  "name": "task1",
+  "name": "swift-codes-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "REST API for managing and retrieving SWIFT/BIC bank codes",
+  "author": "Karolina Jędryczka"
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
