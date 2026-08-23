@@ -4,7 +4,9 @@ import { SwiftCodesModule } from './modules/swift-codes/swift-codes.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/swiftcodes'),
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/swiftcodes',
+    ),
     SwiftCodesModule,
   ],
 })

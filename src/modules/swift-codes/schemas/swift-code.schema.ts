@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 @Schema()
-export class SwiftCode extends Document {
+export class SwiftCode {
   @Prop({ required: true })
   address: string;
 
@@ -22,8 +22,6 @@ export class SwiftCode extends Document {
   swiftCode: string;
 }
 
-// Poprawna deklaracja typu
-export type SwiftCodeDocument = SwiftCode & Document;
+export type SwiftCodeDocument = HydratedDocument<SwiftCode>;
 
-// Tworzenie schematu Mongoose
 export const SwiftCodeSchema = SchemaFactory.createForClass(SwiftCode);

@@ -1,42 +1,53 @@
-import { SwiftCodeSchema } from './modules/swift-codes/schemas/swift-code.schema';
 import * as mongoose from 'mongoose';
 import * as XLSX from 'xlsx';
 
-async function importData() {
-  const uri = 'mongodb://127.0.0.1:27017/swiftcodes';
-  await mongoose.connect(uri);
-  console.log('Connected to MongoDB');
+import { SwiftCodeSchema } from './modules/swift-codes/schemas/swift-code.schema';
 
-  const SwiftCodeModel = mongoose.model('SwiftCode', SwiftCodeSchema);
+const MONGODB_URI =
+  process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/swiftcodes';
 
-  const filePath =
-    'C:/Users/karol/Desktop/praktyki/remitly/task1/Interns_2025_SWIFT_CODES.xlsx';
-  const workbook = XLSX.readFile(filePath);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const jsonData = XLSX.utils.sheet_to_json(sheet);
+const EXCEL_FILE_PATH =
+  process.env.SWIFT_CODES_FILE ?? './data/Interns_2025_SWIFT_CODES.xlsx';
 
-  const swiftCodes = jsonData.map((row: any) => ({
-    countryISO2: row['COUNTRY ISO2 CODE'],
-    swiftCode: row['SWIFT CODE'],
-    codeType: row['CODE TYPE'], // Dodajemy CODE TYPE
-    bankName: row['NAME'],
-    address: row['ADDRESS'],
-    townName: row['TOWN NAME'],
-    countryName: row['COUNTRY NAME'],
-    timeZone: row['TIME ZONE'],
-    isHeadquarter: row['SWIFT CODE'].endsWith('XXX'),
-  }));
+async function importData(): Promise<void> {
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log('Connected to MongoDB');
 
-  console.log(swiftCodes);
+    const SwiftCodeModel = mongoose.model('SwiftCode', SwiftCodeSchema);
 
-  await SwiftCodeModel.deleteMany({});
-  console.log('Old data removed');
-  await SwiftCodeModel.insertMany(swiftCodes);
-  console.log('New data inserted');
-  console.log('Data inserted');
+    const workbook = XLSX.readFile(EXCEL_FILE_PATH);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  await mongoose.disconnect();
-  console.log('MongoDB connection closed');
+    if (!sheet) {
+      throw new Error('Excel file does not contain any worksheets');
+    }
+
+    const jsonData = XLSX.utils.sheet_to_json<Record<string, string>>(sheet);
+
+    const swiftCodes = jsonData.map((row) => ({
+      countryISO2: row['COUNTRY ISO2 CODE'],
+      swiftCode: row['SWIFT CODE'],
+      bankName: row['NAME'],
+      address: row['ADDRESS'],
+      countryName: row['COUNTRY NAME'],
+      isHeadquarter: row['SWIFT CODE']?.endsWith('XXX') ?? false,
+    }));
+
+    console.log(`Found ${swiftCodes.length} SWIFT codes`);
+
+    await SwiftCodeModel.deleteMany({});
+    console.log('Old data removed');
+
+    await SwiftCodeModel.insertMany(swiftCodes);
+    console.log(`${swiftCodes.length} SWIFT codes inserted`);
+  } catch (error) {
+    console.error('Failed to import SWIFT codes:', error);
+    process.exitCode = 1;
+  } finally {
+    await mongoose.disconnect();
+    console.log('MongoDB connection closed');
+  }
 }
 
-importData().catch((err) => console.error(err));
+void importData();

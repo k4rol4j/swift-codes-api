@@ -11,7 +11,6 @@ export class SwiftCodesService {
     private readonly swiftCodeModel: Model<SwiftCodeDocument>,
   ) {}
 
-  // Pobieranie danych SWIFT na podstawie kodu
   async getSwiftCodeDetails(swiftCode: string): Promise<SwiftCode> {
     const swift = await this.swiftCodeModel.findOne({ swiftCode }).exec();
 
@@ -22,7 +21,6 @@ export class SwiftCodesService {
     return swift;
   }
 
-  // Pobieranie wszystkich kodów SWIFT dla danego kraju
   async getSwiftCodesByCountry(countryISO2: string): Promise<SwiftCode[]> {
     const swifts = await this.swiftCodeModel.find({ countryISO2 }).exec();
 
@@ -35,7 +33,6 @@ export class SwiftCodesService {
     return swifts;
   }
 
-  // Dodawanie nowego kodu SWIFT
   async addSwiftCode(
     createSwiftCodeDto: CreateSwiftCodeDto,
   ): Promise<{ message: string }> {
@@ -44,7 +41,6 @@ export class SwiftCodesService {
     return { message: 'SWIFT code successfully added' };
   }
 
-  // Usuwanie kodu SWIFT
   async deleteSwiftCode(swiftCode: string): Promise<{ message: string }> {
     const result = await this.swiftCodeModel.deleteOne({ swiftCode }).exec();
 
