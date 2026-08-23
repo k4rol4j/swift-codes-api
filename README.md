@@ -202,6 +202,12 @@ Generate test coverage:
 npm run test:cov
 ```
 
+### Test Results
+- Unit tests: 13 passed
+- E2E tests: 12 passed
+- ESLint: 0 errors, 0 warnings
+
+
 ## Author
 
 Karolina Jędryczka
